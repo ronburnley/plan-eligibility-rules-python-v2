@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Eligibility Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="h3 mb-0">Plan Eligibility Checker</h1>
+                    </div>
+                    <div class="card-body">
+                        {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                        {% endif %}
+
+                        <form method="POST" class="needs-validation" novalidate>
+                            {{ form.csrf_token }}
+                            <div class="mb-3">
+                                {{ form.plan_id.label(class="form-label") }}
+                                {{ form.plan_id(class="form-control", placeholder="Enter HIOS ID (e.g., 11512NC0100031)") }}
+                                {% if form.plan_id.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.plan_id.errors %}
+                                    {{ error }}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form.zipcode.label(class="form-label") }}
+                                {{ form.zipcode(class="form-control", placeholder="Enter 5-digit ZIP code") }}
+                                {% if form.zipcode.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.zipcode.errors %}
+                                    {{ error }}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form.year.label(class="form-label") }}
+                                {{ form.year(class="form-control", placeholder="Enter plan year (e.g., 2024)") }}
+                                {% if form.year.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.year.errors %}
+                                    {{ error }}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            {{ form.submit(class="btn btn-primary w-100") }}
+                        </form>
+
+                        {% if result and result.success %}
+                        <div class="mt-4">
+                            <h2 class="h4 mb-3">Eligibility Criteria</h2>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        {% for key, value in result.eligibility_criteria.items() %}
+                                        <tr>
+                                            <th scope="row" class="text-capitalize">{{ key.replace('_', ' ') }}</th>
+                                            <td>{{ value }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
