@@ -91,7 +91,8 @@ class PlanEligibilityChecker:
             
             return {
                 'success': True,
-                'eligibility_criteria': eligibility_criteria
+                'eligibility_criteria': eligibility_criteria,
+                'complete_response': plan_details  # Add the complete API response
             }
             
         except requests.exceptions.RequestException as e:

@@ -49,4 +49,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Handle JSON download
+    const downloadBtn = document.getElementById('downloadJson');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            const jsonElement = document.getElementById('jsonData');
+            if (jsonElement) {
+                const jsonData = JSON.parse(jsonElement.dataset.json);
+                const jsonString = JSON.stringify(jsonData, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                
+                // Get the plan ID and date for the filename
+                const planId = jsonData.name || 'plan';
+                const date = new Date().toISOString().split('T')[0];
+                
+                a.href = url;
+                a.download = `${planId}-${date}.json`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            }
+        });
+    }
 }); 

@@ -23,6 +23,7 @@ def index():
     form = EligibilityForm()
     result = None
     error = None
+    full_response = None
 
     if form.validate_on_submit():
         checker = PlanEligibilityChecker()
@@ -34,10 +35,14 @@ def index():
             )
             if not result['success']:
                 error = result.get('error', 'An error occurred while checking eligibility')
+            else:
+                # Store the complete response
+                full_response = result
+
         except Exception as e:
             error = str(e)
 
-    return render_template('index.html', form=form, result=result, error=error)
+    return render_template('index.html', form=form, result=result, error=error, full_response=full_response)
 
 if __name__ == '__main__':
     app.run(debug=True) 
