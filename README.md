@@ -9,12 +9,21 @@ A simple Python application that checks eligibility criteria for healthcare plan
 ```bash
 pip install -r requirements.txt
 ```
-3. Create a `.env` file in the root directory and add your CMS API key:
+3. Copy `.env.example` to `.env`:
+```bash
+cp .env.example .env
 ```
-CMS_API_KEY=your_api_key_here
+4. Get your API key from [CMS Marketplace API](https://developer.cms.gov/marketplace-api/key-request.html)
+5. Update `.env` with your API key:
+```
+CMS_API_KEY=your_actual_api_key_here
 ```
 
-To get an API key, visit: https://developer.cms.gov/marketplace-api/key-request.html
+⚠️ **Security Note**: 
+- Never commit your `.env` file to version control
+- Never share your API key publicly
+- The `.env` file is listed in `.gitignore` to prevent accidental commits
+- Use environment variables in production environments
 
 ## Usage
 
