@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, Length
-from src.plan_eligibility import PlanEligibilityChecker
+from plan_eligibility import PlanEligibilityChecker
 import os
 from dotenv import load_dotenv
 
